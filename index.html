@@ -1,0 +1,110 @@
+<!-- I can't get the angry video to play and can't get the crying video to stop,
+but it all kind of works anyways :) -->
+
+<!-- Found the way to play video with time tags here:
+      https://www.html5rocks.com/en/tutorials/video/basics/
+  -->
+ 
+<html>
+  <head>
+
+    <style>
+      p.font {
+        font: 15px arial, sans-serif;
+      }
+      h2.font {
+        font:italic bold 30px/30px Georgia, serif;
+      }
+    </style>
+
+    <title> self portrait </title>
+
+    <script type="text/javascript">
+
+    window.addEventListener('load', init);
+
+    //the videos
+    var laughing;
+    var crying;
+    var angry;
+
+    //for switching between videos
+    var inc = 0;
+
+    function init() {
+      laughing = document.getElementById("laughing");
+      angry = document.getElementById("angry");
+      crying = document.getElementById("crying");
+      //hiding the videos to start
+      laughing.style.display = "none";
+      angry.style.display = "none";
+      crying.style.display = "none";
+    }
+
+    //alternating between videos on button click
+    function doSomething() {
+
+      inc++;
+      if (inc > 3) { inc = 1 };
+      console.log(inc);
+
+      if (inc == 1) {
+        laughing.style.display = "block";
+        laughing.play();
+      } else {
+        laughing.style.display = "none";
+        laughing.pause();
+      }
+
+      if (inc == 2) {
+        angry.style.display = "block";
+        angry.play();
+        console.log("angry play")
+      } else {
+        angry.style.display = "none";
+        angry.pause();
+        console.log("angry pause")
+      }
+
+      if (inc == 3) {
+        crying.style.display = "block";
+        crying.play();
+      } else {
+        crying.style.display = "none";
+        angry.pause();
+      }
+    }
+
+    // laughing.addEventListener('pause', (event) => {laughing.play();});
+    // angry.addEventListener('pause', (event) => {angry.play();});
+    // crying.addEventListener('pause', (event) => {crying.play();});
+
+    </script>
+  </head>
+  <body>
+
+      <!-- You made it.  But the pot of <span id="potContents">gold</span> is not here. -->
+
+
+    <h2 class="font">"I am small, I constain vicissitudes."</h2>
+    <p class="font">- A quote from the famous French philospher who loathed people named Walt.<br></p>
+
+
+    <!-- <p> -->
+        <<< Click <button onClick="doSomething()">here</button> to hear how I feel today, boo. >>>
+          <video width="180" height="120" id="laughing">
+                <source src="laughing.mp4#t=49,57" type="video/mp4">
+          </video>
+          <video width="180" height="120" id="angry">
+                <source src="angry-edit1.mp4" type="video/mp4">
+          </video>
+          <video width="180" height="120" id="crying">
+                <source src="crying.mp4#t=29,35" type="video/mp4">
+          </video>
+    <!-- </p> -->
+  </p>
+
+  </body>
+
+</html>
+
