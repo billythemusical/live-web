@@ -17,7 +17,7 @@ but it all kind of works anyways :) -->
       }
     </style>
 
-    <title> self portrait </title>
+    <title>Autoportrait</title>
 
     <script type="text/javascript">
 
@@ -46,7 +46,6 @@ but it all kind of works anyways :) -->
 
       inc++;
       if (inc > 3) { inc = 1 };
-      console.log(inc);
 
       if (inc == 1) {
         laughing.style.display = "block";
@@ -59,11 +58,9 @@ but it all kind of works anyways :) -->
       if (inc == 2) {
         angry.style.display = "block";
         angry.play();
-        console.log("angry play")
       } else {
         angry.style.display = "none";
         angry.pause();
-        console.log("angry pause")
       }
 
       if (inc == 3) {
@@ -87,23 +84,18 @@ but it all kind of works anyways :) -->
 
 
     <h2 class="font">"I am small, I constain vicissitudes."</h2>
-    <p class="font">- A quote from the famous French philospher who loathed people named Walt.<br></p>
-
-
-    <!-- <p> -->
+    <p class="font">- A quote from the famous French philospher who loathed people named Walt.<br>
+    </p>
         <<< Click <button onClick="doSomething()">here</button> to hear how I feel today, boo. >>>
+
           <video width="180" height="120" id="laughing">
                 <source src="laughing.mp4#t=49,57" type="video/mp4">
           </video>
-          <video width="180" height="120" id="angry">
-                <source src="angry-edit1.mp4" type="video/mp4">
+          <video width="180" height="120" id="angry"
+                <source src="angry-edit1.mp4#t=0,6" type="video/mp4">
           </video>
           <video width="180" height="120" id="crying">
                 <source src="crying.mp4#t=29,35" type="video/mp4">
           </video>
-    <!-- </p> -->
-  </p>
-
   </body>
-
-</html>
+  </html>
