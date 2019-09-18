@@ -1,0 +1,98 @@
+<html>
+	<head>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="/ajax.js"></script>
+		<script type="text/javascript">
+
+			var socket = io.connect();
+			var loading = [
+											"Loading.",
+											"Loading..",
+											"Loading..."
+										]
+			var breakLoop = false;
+			var loop1, loop2, loop3, breakLoop;
+
+      function init()
+			{
+					loop1 = setInterval(loading1, 500);
+					loop2 = setInterval(loading2, 1000);
+					loop3 = setInterval(loading3, 1500);
+			}
+
+			function welcomeMsg(response)
+			{
+
+				document.getElementById("headline").innerHTML = response;
+			}
+
+			function loading1()
+			{
+					document.getElementById("headline").innerHTML = loading[0];
+			}
+
+			function loading2()
+			{
+					document.getElementById("headline").innerHTML = loading[1];
+			}
+
+			function loading3()
+			{
+					document.getElementById("headline").innerHTML = loading[2];
+					breakLoop++;
+					if (breakLoop > 4)
+					{
+						clearInterval(loop1);
+						clearInterval(loop2);
+						clearInterval(loop3);
+						makeHttpRequest('welcome-msg.txt',welcomeMsg);
+					}
+			}
+
+			function breakLoadingLoop()
+			{
+				breakLoop = true;
+				makeHttpRequest('welcome-msg.txt',welcomeMsg);
+			}
+
+      // function init() {
+      //   welcomeMsg = document.getElementById("messages");
+      //   setTimeout(doit, 3000);
+			// 	welcomeMsg.innerHTML = makeHttpRequest("welcome-msg.txt");
+			// }
+
+
+			socket.on('connect', function() {
+				console.log("Connected");
+				// document.getElementById('messages').innerHTML = welcomeMsg;
+
+			});
+
+			// Receive from any event
+			socket.on('chatmessage', function (data) {
+				console.log(data);
+				document.getElementById('messages').innerHTML = data +
+ + "" + document.getElementById('messages').innerHTML;
+			});
+
+			var sendmessage = function(message) {
+				console.log("chatmessage: " + message);
+				socket.emit('chatmessage', message);
+				document.getElementById('messages').innerHTML = message + "<br>" + document.getElementById('messages').innerHTML;
+			};
+
+			window.addEventListener('load', init);
+
+		</script>
+	</head>
+ <body>
+	 <div id="headline">
+	 Loading...
+	 </div>
+	 <div id="messages">" "</div>
+ <input type="text" id="message" name="message">
+ <input type="submit" value="submit" onclick="sendmessage(document.getElementById('message').value);">
+ <!-- <script id="textAnimate" src="sketch.js"></script> -->
+
+ </body>
+</html>
