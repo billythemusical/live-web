@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+		<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+		<style>
+			body {
+				background-color: dodgerblue;
+				/* background-color: darkseagreen; */
+				/* background-color: honeydew; */
+				color: white;
+				/* padding_left: -40px; */
+				margin-left: 40px;
+				margin-right: 40px;
+				margin-top: 40px;
+				font-family: Futura;
+			}
+
+			.center {
+			  display: block;
+			  margin-left: auto;
+			  margin-right: auto;
+				margin-bottom:40px;
+			}
+
+
+			.welcome-note body {
+			  /* color: white;
+			  margin-left: 40px;
+				margin-top: 40px; */
+			}
+
+			/* .welcome-note::first-line {
+					font-family: Futura;
+			} */
+
+			.questions body {
+
+
+			}
+
+			.answer body {
+
+
+			}
+
+			.firstcharacter {
+			  /* color: #903; */
+			  float: left;
+			  font-family: Impact;
+			  font-size: 75px;
+			  line-height: 60px;
+			  padding-top: 4px;
+			  padding-right: 8px;
+			  padding-left: 3px;
+			}
+
+			top-pic:hover  {
+				-webkit-filter: invert(100%);
+				filter: invert(100%);
+			}
+
+
+		</style>
+
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript">
+
+			var socket = io.connect();
+
+			socket.on('connect', function()
+			{
+				console.log("Connected");
+				// Once we are connected, request the history
+				// socket.emit('history', null);
+			});
+
+			// Receive from any event
+			socket.on('responseReturn', function (data)
+			{
+				console.log(data.id, data.category, data.question, data.answer);
+				// document.getElementById('questions').innerHTML = document.getElementById('messages').innerHTML + "\n<br />" + questions.police[++questionCount];
+			});
+
+			var questions =
+			{
+				demographics:
+				[
+					["Would you like to provide your gender identity?",
+					// Male Female Non-binary,
+					"Would you provide your age?",
+					"Would you please provide your income or if a student, you family income?"
+
+				],
+				guns:
+				[
+					"Do you own a gun?",
+					"Do any of your family members or friend own a gun?",
+					"Has your life been touched directly by gun violence?",
+					"Do you think our country has a problem with guns?",
+					"Do you think all guns should be outlawed?",
+					"If yes, does this also include for police force?",
+					"If yes, does this include for the military?",
+					"If yes, does this include for sport, like hunting?",
+					"Do you support a mandatory waiting period to obtain a firearm?"
+				],
+				abortion:
+				[
+					"\"Abortion is a women's rights issue.\" - type yes or no",
+					"Does life begin at conception?"
+					// "\"Abortion is a human rights issue.\" - type yes or no",
+					"Should abortions be allowed up until the point of birth?",
+					"Should there be a cutoff date after which no abortions are allowed, excluding life-saving interventions?",
+					"Should there be an exception in the case of rape?",
+					// "Are you a man or a woman?",
+					"Do you think your gender influences your opinion?"
+				],
+				policing:
+				[
+					"Have you been ever been mistreated by the police?",
+					"Do you trust the police to protect you and your family?",
+					"Do people who break the law have less rights than those who don't?",
+					"Is there a problem with the police force in the United States?",
+					// "... in this state?",
+					// "... in your city?",
+					"Should be police have access to military surplus equipment like armored vehicles, tanks, and grenade launchers?"
+				],
+				gender identity:
+				[
+					"Do you believe that there are predominantly two biological sexes?",
+					"Do you believe in someone's right to identify with a gender that is inconsistent with their biological sex?",
+					"Do you believe in a person's right to not identify as any gender at all?",
+					"Do you believe that the United States has a problem with gender?",
+					"Do you believe that women are consistently paid less than men for the same job?",
+					"Do you believe that men and women, generally, desire and seek the same kind of jobs?"
+				],
+				gender-equality:
+				[
+					"Do you believe that the United States has a problem with gender equality?",
+					"Do you believe that women are consistently paid less than men for the exact same job?",
+					"Do you believe that men and women desire and seek the same kind of jobs?",
+					"Do you have a distaste for gendered language?"
+				],
+				social-policy:
+				[
+					"Do you think there is something inherently unethical in being a billionaire?",
+					"Do you believe that words are violence?",
+					"Do you wish to engage with opinions that do not reflect your own if the other side seeks disucssion in good faith?",
+				],
+				immigration:
+				[
+					"Does the United States have an immigration problem?",
+					"Should the United States government decide how porous the border is or should the local communities ?",
+					"Should there be limits on immigration?",
+					"Should be a limit on how many people are allowed to enter the United States?"
+				]
+				// "race":
+				// [
+				// 	"Do you believe that some races of people have a biological advantage in certain endeavors?",
+				// ],
+			};
+
+			let questionCount = -1;
+			let topicCount = 0;
+			let topics = Object.keys(questions);
+			let currentQuestion = "";
+
+			var sendmessage = function(response)
+			{
+				socket.on('response', response);
+			};
+
+			var hitReturn = function(ele)
+			{
+
+    		if(event.keyCode == 13)
+				{
+					currentQuestion = eval("questions." + topics[topicCount] + "[questionCount]");
+					let answer = document.getElementById('answer').value;
+					let response =
+					{
+						id:socket.id,
+						topic:topics[topicCount],
+						question:currentQuestion,
+						answer:ele.value.toLowerCase()
+					}
+
+					sendmessage(response);
+					console.log("<<< >>>");
+					if(questionCount < 0) {response.question = "Are you ready to begin?"}
+					console.log("<<<< User: " + response.id);
+					console.log("<<<< Topic: " + response.topic);
+					console.log("Question: " + response.question);
+					console.log("Answer: " + response.answer);
+					console.log(questionCount, topicCount, topics[topicCount]);
+    		};
+			};
+
+			var clearInput = function (ele) {
+				if(event.keyCode == 13)
+				{
+					let currentTopicNumQuestions = eval("questions." + topics[topicCount] + ".length");
+					if (questionCount == (currentTopicNumQuestions - 1))
+					{
+						questionCount = 0;
+						topicCount++;
+					}
+					else
+					{
+						questionCount++;
+					}
+					let nextQuestion = eval("questions."+topics[topicCount]+"[questionCount]");
+					let changeQuestion = document.getElementById('questions');
+					changeQuestion.innerHTML = nextQuestion;
+          let msg = document.getElementById('answer');
+					msg.value = null;
+					msg.placeholder = "";
+				}
+
+			};
+
+			var init = function ()
+			{
+				let begin = document.getElementById('questions');
+				begin.innerHTML = "Are you ready to begin?";
+
+				// var counter = function() {
+				//
+				// 	let topics = Object.keys(questions);
+				// 	let numValues = Object.keys(questions.guns).length;
+				// 	/*
+				// 	if the question count is more than the number of values in the current keys, then move to the next key and start the count again
+				//
+				// 	*/
+				//
+				// };
+			};
+
+
+
+		</script>
+	</head>
+ <body onload="init()">
+	 <!-- <img src="white-black-ellipse.jpg" alt="a white and black circle" width="200" height="150" class="center"> -->
+	 <img src="purple-blue-red-ellipse.jpg" alt="a white and black circle" width="200" height="150" class="center">
+	 <!-- <img src="white-black-ellipse.jpg" alt="a white and black circle"> -->
+
+	 <div class="welcome-note" id='welcome-note'>
+		 <span class="firstcharacter">P</span>olitics in the United States has reached a fever pitch, making already difficult conversations almost impossible.  Each pole of the political binary - Liberal and Conservative - has their own narratives which are often too reductive, anecdotal, and misrepresentative of the opposition.
+
+		 <br><br>I often find myself afraid to push back against commonly-held beliefs on hot-button issues, even among those with whom I feel like-minded.  It seems the slightest dissent could suddenly earn one a nasty label, thrusting them abruptly to the "other side."
+
+		 <br><br>In order to explore, and perhaps combat, even on a small level, the division as it exists and is sustained by the fear of open disucssion, you can participate here in a short experiment of free thought and opinion.  The questionnaire below presents a number of difficult questions on topics that can be the topic of
+
+		 <br><br>Each user is assigned an anonymous user id which will be used to store their answers for review and comparison with the group.  If you happen to refresh the page, you will have to begin again and will be assigned a new ID.  <br> <br> At then end, you will be able to download the results of both your own data and those who have taken the survey before you.  You will also have the option to <b>delete</b> your user data with confirmation.
+	 </div>
+
+	 <p>
+	 	<div id='questions' class="questions"></div>
+		<!-- <br> -->
+		<div>Type YES or NO and hit 'return' to submit.</div>
+ 	 </p>
+	 <!-- <input type="text" id="answer" name="answer" placeholder="speak here" ngModel="demoInput" onkeydown="hitReturn(this)"/ onkeyup="clearInput(this)"/>  <<< Type YES or NO and hit 'return' to submit.</input> -->
+	 <input class="answers" type="text" id="answer" name="answer" placeholder="speak here" ngModel="demoInput" onkeydown="hitReturn(this)"/ onkeyup="clearInput(this)"/>
+
+ </body>
+</html>
