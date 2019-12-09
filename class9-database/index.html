@@ -13,6 +13,7 @@
 				margin-left: 40px;
 				margin-right: 40px;
 				margin-top: 40px;
+				margin-bottom: 60px;
 				font-family: Futura;
 			}
 
@@ -36,12 +37,14 @@
 
 			.questions body {
 
-
 			}
 
 			.answer body {
 
+			}
 
+			.instructions body {
+				font-size: 12pt;
 			}
 
 			.firstcharacter {
@@ -66,7 +69,7 @@
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 		<script type="text/javascript">
 
-			var socket = io.connect();
+			let socket = io.connect();
 
 			socket.on('connect', function()
 			{
@@ -82,95 +85,119 @@
 				// document.getElementById('questions').innerHTML = document.getElementById('messages').innerHTML + "\n<br />" + questions.police[++questionCount];
 			});
 
-			var questions =
-			{
-				demographics:
-				[
-					["Would you like to provide your gender identity?",
-					// Male Female Non-binary,
-					"Would you provide your age?",
-					"Would you please provide your income or if a student, you family income?"
+			// socket.on('chatmessage', function (msg)
+			// {
+			// 	//request the history
+			// 	console.log(msg);
+			// });
 
-				],
+			// let requestHistory = window.addEventListener('mousedown', (socket.id) =>
+			// {
+			// 	socket.emit('history', socket.id)
+			// });
+
+			let questions =
+			{
+				// demographics:
+				// [
+				// 	[
+				// 	"Would you like to provide your gender identity?",
+				// 	"Please choose \"other\", \"female\", or \"male\""
+				// 	],
+				// 	[
+				// 	"Would you provide your age?",
+				// 	"Please enter digits, e.g. 25..."
+				// 	]
+				// 	"Would you please provide your income or if a student, you family income?"
+				//
+				// ],
 				guns:
 				[
 					"Do you own a gun?",
 					"Do any of your family members or friend own a gun?",
 					"Has your life been touched directly by gun violence?",
 					"Do you think our country has a problem with guns?",
-					"Do you think all guns should be outlawed?",
+					"Do you think all guns should be made illegal?",
 					"If yes, does this also include for police force?",
 					"If yes, does this include for the military?",
 					"If yes, does this include for sport, like hunting?",
-					"Do you support a mandatory waiting period to obtain a firearm?"
+					"Do you support a mandatory waiting period to obtain a firearm?",
+					"That's it for now...."
 				],
-				abortion:
-				[
-					"\"Abortion is a women's rights issue.\" - type yes or no",
-					"Does life begin at conception?"
-					// "\"Abortion is a human rights issue.\" - type yes or no",
-					"Should abortions be allowed up until the point of birth?",
-					"Should there be a cutoff date after which no abortions are allowed, excluding life-saving interventions?",
-					"Should there be an exception in the case of rape?",
-					// "Are you a man or a woman?",
-					"Do you think your gender influences your opinion?"
-				],
-				policing:
-				[
-					"Have you been ever been mistreated by the police?",
-					"Do you trust the police to protect you and your family?",
-					"Do people who break the law have less rights than those who don't?",
-					"Is there a problem with the police force in the United States?",
-					// "... in this state?",
-					// "... in your city?",
-					"Should be police have access to military surplus equipment like armored vehicles, tanks, and grenade launchers?"
-				],
-				gender identity:
-				[
-					"Do you believe that there are predominantly two biological sexes?",
-					"Do you believe in someone's right to identify with a gender that is inconsistent with their biological sex?",
-					"Do you believe in a person's right to not identify as any gender at all?",
-					"Do you believe that the United States has a problem with gender?",
-					"Do you believe that women are consistently paid less than men for the same job?",
-					"Do you believe that men and women, generally, desire and seek the same kind of jobs?"
-				],
-				gender-equality:
-				[
-					"Do you believe that the United States has a problem with gender equality?",
-					"Do you believe that women are consistently paid less than men for the exact same job?",
-					"Do you believe that men and women desire and seek the same kind of jobs?",
-					"Do you have a distaste for gendered language?"
-				],
-				social-policy:
-				[
-					"Do you think there is something inherently unethical in being a billionaire?",
-					"Do you believe that words are violence?",
-					"Do you wish to engage with opinions that do not reflect your own if the other side seeks disucssion in good faith?",
-				],
-				immigration:
-				[
-					"Does the United States have an immigration problem?",
-					"Should the United States government decide how porous the border is or should the local communities ?",
-					"Should there be limits on immigration?",
-					"Should be a limit on how many people are allowed to enter the United States?"
-				]
+				// abortion:
+				// [
+				// 	"\"Abortion is a women's rights issue.\" - type yes or no",
+				// 	"Does life begin at conception?",
+				// 	// "\"Abortion is a human rights issue.\" - type yes or no",
+				// 	"Should abortions be allowed up until the point of birth?",
+				// 	"Should there be a cutoff date after which no abortions are allowed, excluding life-saving interventions?",
+				// 	"Should there be an exception in the case of rape?",
+				// 	// "Are you a man or a woman?",
+				// 	"Do you think your gender influences your opinion?"
+				// ],
+				// policing:
+				// [
+				// 	"Have you been ever been mistreated by the police?",
+				// 	"Do you trust the police to protect you and your family?",
+				// 	"Do people who break the law have less rights than those who don't?",
+				// 	"Is there a problem with the police force in the United States?",
+				// 	// "... in this state?",
+				// 	// "... in your city?",
+				// 	"Should be police have access to military surplus equipment like armored vehicles, tanks, and grenade launchers?"
+				// ],
+				// genderIdentity:
+				// [
+				// 	"Do you believe that there are predominantly two biological sexes?",
+				// 	"Do you believe in someone's right to identify with a gender that is inconsistent with their biological sex?",
+				// 	"Do you believe in a person's right to not identify as any gender at all?",
+				// 	"Do you believe that the United States has a problem with gender?",
+				// 	"Do you believe that women are consistently paid less than men for the same job?",
+				// 	"Do you believe that men and women, generally, desire and seek the same kind of jobs?"
+				// ],
+				// genderEquality:
+				// [
+				// 	"Do you believe that the United States has a problem with gender equality?",
+				// 	"Do you believe that women are consistently paid less than men for the exact same job?",
+				// 	"Do you believe that men and women desire and seek the same kind of jobs?",
+				// 	"Do you have a distaste for gendered language?"
+				// ],
+				// socialPolicy:
+				// [
+				// 	"Do you think there is something inherently unethical in being a billionaire?",
+				// 	"Do you believe that words are violence?",
+				// 	"Do you wish to engage with opinions that do not reflect your own if the other side seeks disucssion in good faith?",
+				// ],
+				// immigration:
+				// [
+				// 	"Does the United States have an immigration problem?",
+				// 	"Should the United States government decide how porous the border is or should the local communities ?",
+				// 	"Should there be limits on immigration?",
+				// 	"Should be a limit on how many people are allowed to enter the United States?"
+				// ]
 				// "race":
 				// [
 				// 	"Do you believe that some races of people have a biological advantage in certain endeavors?",
 				// ],
 			};
 
+			let numTopics = Object.keys(questions).length;
+			// console.log(numTopics);
 			let questionCount = -1;
 			let topicCount = 0;
 			let topics = Object.keys(questions);
 			let currentQuestion = "";
 
-			var sendmessage = function(response)
+			let sendMessage = function(response)
 			{
 				socket.on('response', response);
 			};
 
-			var hitReturn = function(ele)
+			let recieveMessage = function(response)
+			{
+				socket.on('')
+			}
+
+			let hitReturn = function(ele)
 			{
 
     		if(event.keyCode == 13)
@@ -184,21 +211,41 @@
 						question:currentQuestion,
 						answer:ele.value.toLowerCase()
 					}
+					if (questionCount > 0)
+					{
+						sendMessage(response);
+					}
 
-					sendmessage(response);
-					console.log("<<< >>>");
-					if(questionCount < 0) {response.question = "Are you ready to begin?"}
-					console.log("<<<< User: " + response.id);
-					console.log("<<<< Topic: " + response.topic);
+					// console.log("<<< >>>");
+					if(questionCount < 0)
+					{
+						response.question = "Are you ready to begin?";
+						// response.topic = "null";
+					}
+					console.log("User: " + response.id);
+					console.log("Topic: " + response.topic);
 					console.log("Question: " + response.question);
 					console.log("Answer: " + response.answer);
-					console.log(questionCount, topicCount, topics[topicCount]);
+					console.log("questionCount: " + questionCount);
+					console.log("topicCount: " + topicCount)
+					console.log("topics[topicCount]: " + topics[topicCount]);
     		};
 			};
 
-			var clearInput = function (ele) {
+			let clearInput = function (ele) {
 				if(event.keyCode == 13)
 				{
+					//hide the welcome note
+					let hideWelcomeNote = document.getElementById("welcome-note");
+					hideWelcomeNote.style.display = "none";
+
+					let showUserID = document.getElementById("user-id");
+					showUserID.style.display = "block";
+					showUserID.innerHTML = "User ID: " + socket.id;
+
+					let hideInstructions = document.getElementById("instructions");
+					hideInstructions.style.display = "none";
+
 					let currentTopicNumQuestions = eval("questions." + topics[topicCount] + ".length");
 					if (questionCount == (currentTopicNumQuestions - 1))
 					{
@@ -209,6 +256,21 @@
 					{
 						questionCount++;
 					}
+
+					// if (questionCount == (currentTopicNumQuestions - 1) && (topicCount + 1) < numTopics)
+					// {
+					// 	questionCount = 0;
+					// 	topicCount++;
+					// }
+					// else if ((topicCount + 1) == numTopics)
+					// {
+					// 	console.log("***********ending state***********")
+					// 	topicCount = 0;
+					// }
+					// else
+					// {
+					// 	questionCount++;
+					// }
 					let nextQuestion = eval("questions."+topics[topicCount]+"[questionCount]");
 					let changeQuestion = document.getElementById('questions');
 					changeQuestion.innerHTML = nextQuestion;
@@ -219,49 +281,41 @@
 
 			};
 
-			var init = function ()
+			let init = function ()
 			{
 				let begin = document.getElementById('questions');
 				begin.innerHTML = "Are you ready to begin?";
-
-				// var counter = function() {
-				//
-				// 	let topics = Object.keys(questions);
-				// 	let numValues = Object.keys(questions.guns).length;
-				// 	/*
-				// 	if the question count is more than the number of values in the current keys, then move to the next key and start the count again
-				//
-				// 	*/
-				//
-				// };
 			};
+
+			let prevQuestion = (key) => {
+				window.addEventListener
+			}
 
 
 
 		</script>
 	</head>
- <body onload="init()">
-	 <!-- <img src="white-black-ellipse.jpg" alt="a white and black circle" width="200" height="150" class="center"> -->
+ <body onload="init();">
+
 	 <img src="purple-blue-red-ellipse.jpg" alt="a white and black circle" width="200" height="150" class="center">
-	 <!-- <img src="white-black-ellipse.jpg" alt="a white and black circle"> -->
 
 	 <div class="welcome-note" id='welcome-note'>
 		 <span class="firstcharacter">P</span>olitics in the United States has reached a fever pitch, making already difficult conversations almost impossible.  Each pole of the political binary - Liberal and Conservative - has their own narratives which are often too reductive, anecdotal, and misrepresentative of the opposition.
 
 		 <br><br>I often find myself afraid to push back against commonly-held beliefs on hot-button issues, even among those with whom I feel like-minded.  It seems the slightest dissent could suddenly earn one a nasty label, thrusting them abruptly to the "other side."
 
-		 <br><br>In order to explore, and perhaps combat, even on a small level, the division as it exists and is sustained by the fear of open disucssion, you can participate here in a short experiment of free thought and opinion.  The questionnaire below presents a number of difficult questions on topics that can be the topic of
+		 <br><br>In order to explore, and perhaps combat, even on a small level, the division as it exists and is sustained by the fear of open disucssion, you can participate here in a short experiment of free thought and opinion.
+		 <!-- The questionnaire below presents a number of difficult questions on topics that can be the topic of -->
 
 		 <br><br>Each user is assigned an anonymous user id which will be used to store their answers for review and comparison with the group.  If you happen to refresh the page, you will have to begin again and will be assigned a new ID.  <br> <br> At then end, you will be able to download the results of both your own data and those who have taken the survey before you.  You will also have the option to <b>delete</b> your user data with confirmation.
 	 </div>
 
 	 <p>
-	 	<div id='questions' class="questions"></div>
-		<!-- <br> -->
-		<div>Type YES or NO and hit 'return' to submit.</div>
+		 <div id="user-id" type="text"></div>
+		 <div class="instructions" id="instructions" type="text">For all questions, please type 'yes' or 'no' then press 'enter' to submit.</div>
+		 <br>
+		 <div id='questions'></div>
  	 </p>
-	 <!-- <input type="text" id="answer" name="answer" placeholder="speak here" ngModel="demoInput" onkeydown="hitReturn(this)"/ onkeyup="clearInput(this)"/>  <<< Type YES or NO and hit 'return' to submit.</input> -->
-	 <input class="answers" type="text" id="answer" name="answer" placeholder="speak here" ngModel="demoInput" onkeydown="hitReturn(this)"/ onkeyup="clearInput(this)"/>
-
+	 <input type="text" id="answer" name="answer" placeholder="speak here" ngModel="demoInput" onkeydown="hitReturn(this)"/ onkeyup="clearInput(this)"/>
  </body>
 </html>
